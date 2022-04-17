@@ -1,17 +1,21 @@
 import Product from "../models/Product.js";
 
-//to get all products
+//to get single product
 export const getProduct = async (req,res) =>{
+   const { id} = req.params
     try{
-        const products = await Product.find();
-        res.json(products);
+        
+        
+        const product = await Product.findById(id);
+ 
+        res.json(product);
     }
     catch(err){
         res.json({message: err});
     }
 }
 
-//to get single product by id
+//to get all products 
 export const getProducts = async (req,res) =>{
     try{
         const product = await Product.find();
@@ -23,29 +27,36 @@ export const getProducts = async (req,res) =>{
 
 //to create product
 export const createProduct = async (req,res) =>{
+ 
     const {title, desc, price} = req.body;
-    console.log(title);
+    console.log(title,desc,price);
     const product = new Product({
         productname: title,
         desc: desc,
         productcost: price
     });
    
-    // try{
-    //     const savedProduct = await product.save()
-    //     res.json(savedProduct);
-    // }
-    // catch(err) {
-    //     res.json({message: err});
-    // }
+    try{
+        const savedProduct = await product.save()
+        res.json(savedProduct);
+    }
+    catch(err) {
+        res.json({message: err});
+    }
 }
 
-//to pdate product
-export const updateProduct = async (req,res) =>{try{
-    const updatedProduct = await Product.updateOne({ _id: req.params.productID},
-        {$set: {productname: req.body.productname,
-            desc: req.body.desc,
-            productcost: req.body.productcost }});
+//to update product
+export const updateProduct = async (req,res) =>{
+     console.log("We are here")
+    const {id} = req.params;
+    const {title, desc, price} = req.body;
+    console.log(title,desc,price);
+
+    try{
+    const updatedProduct = await Product.updateOne({ id },
+        {$set: {productname: title,
+            desc: desc,
+            productcost: price }});
     res.json(updatedProduct);
 } catch(err){
     res.json({message: err});

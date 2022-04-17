@@ -7,11 +7,11 @@ import { getProducts,
 const router = express.Router();
 
 
-router.get("/:productID", getProduct);
+router.get("/:id", getProduct);
 router.get("/", getProducts);
 router.post("/", createProduct);
-router.patch("/:productID", updateProduct);
-router.delete("/:productID", deleteProduct);
+router.patch("/:id", updateProduct);
+router.delete("/:id", deleteProduct);
 
 
 export default router
